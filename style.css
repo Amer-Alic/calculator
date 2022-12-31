@@ -1,0 +1,116 @@
+* {
+    box-sizing: border-box;
+    margin: 0px;
+    padding: 0px;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #678983;
+}
+
+main {
+    background-color: #393E46;
+    width: 400px;
+    height: 500px;
+    border: 10px solid #212121;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.display {
+    width: 100%;
+    /* height: 30px; */
+    background-color: #004526;
+    color: #F6F6F6;
+    flex: 1;
+    box-shadow: rgba(0, 0, 0, 0.25) 5px 70px 100px -30px, rgba(0, 0, 0, 0.3) 0px 50px 80px -50px, rgba(0, 0, 0, 0.35) 0px -6px 12px 0px inset;
+    text-align: end;
+    padding: 5px;
+    border: 5px solid #212121;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(10px, 1fr));
+    gap: 10px;
+    flex: 3;
+    margin-top: 10px;
+}
+
+.button {
+    text-align: center;
+    background-color: #212121;
+    color: #F6F6F6;
+    width: 100%;
+    height: 30px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-transform: uppercase;
+    border: 0 none;
+    border-radius: 3px;
+    text-shadow: 0 -1px 0 #000;
+    box-shadow: 0 1px 0 #666, 0 5px 0 #444, 0 6px 6px rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.button:hover,
+.button:focus {
+    -webkit-animation: pulsate 1.2s linear infinite;
+    animation: pulsate 1.2s linear infinite;
+}
+
+@-webkit-keyframes pulsate {
+    0% {
+        color: #ddd;
+        text-shadow: 0 -1px 0 #000;
+    }
+
+    50% {
+        color: #fff;
+        text-shadow: 0 -1px 0 #444, 0 0 5px #ffd, 0 0 8px #fff;
+    }
+
+    100% {
+        color: #ddd;
+        text-shadow: 0 -1px 0 #000;
+    }
+}
+
+@keyframes pulsate {
+    0% {
+        color: #ddd;
+        text-shadow: 0 -1px 0 #000;
+    }
+
+    50% {
+        color: #fff;
+        text-shadow: 0 -1px 0 #444, 0 0 5px #ffd, 0 0 8px #fff;
+    }
+
+    100% {
+        color: #ddd;
+        text-shadow: 0 -1px 0 #000;
+    }
+}
+
+button:active {
+    color: #fff;
+    text-shadow: 0 -1px 0 #444, 0 0 5px #ffd, 0 0 8px #fff;
+    box-shadow: 0 1px 0 #666, 0 2px 0 #444, 0 2px 2px rgba(0, 0, 0, 0.9);
+    -webkit-transform: translateY(3px);
+    transform: translateY(3px);
+    -webkit-animation: none;
+    animation: none;
+}
+
+.button#equal {
+    grid-column: span 2;
+}
