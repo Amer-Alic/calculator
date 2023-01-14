@@ -1,157 +1,188 @@
-const buttons = document.querySelectorAll("button");
-const display = document.querySelector(".display");
-const equalSign = document.querySelector("#equal");
-const signs = document.querySelectorAll(".sign");
-const numbers = document.querySelectorAll(".numbers");
-const buttonAC = document.querySelector("#AC");
-const dot = document.querySelector("#dot");
-const c = document.querySelector("#C");
-let nums = [], operator = [], total;
-// CHECK FOR NUMBERS
-const regexOne = /(\-?\d+\.?\d*)(\%|\+|\-|\*|\/)(\d+\.?\d*)/g;
-// CHECK FOR OPERATOR 
-const regexTwo = /(\-?\d+)(\%|\+|\-|\*|\/)/g;
+const numbersButton = document.querySelectorAll("[data-number]");
+const operationsButton = document.querySelectorAll("[data-operation]");
+const equalButton = document.querySelector("[data-equal]");
+const displayUpper = document.querySelector("[data-display-upper]");
+const displayDown = document.querySelector("[data-display-down]");
+const clearButton = document.querySelector("[data-clear]");
+const allClearButton = document.querySelector("[data-all-clear]");
 
 
-makePatterns(true, true)
+class Calculator {
+    constructor(displayDown, displayUpper) {
+        this.displayDown = displayDown;
+        this.displayUpper = displayUpper;
+        this.result = 0;
+        this.allClear();
+    }
 
-function getOperator(regexp, str) {
-    return Array.from(str.matchAll(regexp), m => m[2]);
+    allClear() {
+        this.currentNumber = "";
+        this.operation = "";
+        this.secondNumber = "";
+    }
+
+    clear() {
+        if (this.result !== 0) return;
+        displayDown.innerText = displayDown.innerText.slice(0, -1);
+        calculator.currentNumber = calculator.currentNumber.slice(0, -1);
+    }
+
+    changeNumber(number) {
+        if (this.result !== 0 || this.currentNumber.toString().includes(".") && number === ".") return;
+        this.currentNumber = this.currentNumber.toString() + number.toString();
+    }
+
+    changeOperator(operationButton) {
+        if (this.currentNumber === "") return;
+        if (this.operation !== "") {
+            this.evaluate();
+        }
+        if (this.operation === "" && this.currentNumber === "") return;
+        this.operation = operationButton;
+        this.secondNumber = this.currentNumber;
+        this.currentNumber = "";
+        this.result = 0;
+    }
+
+    updateDisplay() {
+        this.displayDown.innerText = this.currentNumber;
+        this.displayUpper.innerText = `${this.secondNumber} ${this.operation}`;
+    }
+
+    evaluate() {
+        let current = parseFloat(this.currentNumber);
+        let second = parseFloat(this.secondNumber);
+        if (this.operation === "/" || second === 0) {
+            alert("YOU CANT DO THISSSS");
+            this.allClear();
+            return;
+        }
+        if (isNaN(current) || isNaN(second)) return;
+        switch (this.operation) {
+            case "+":
+                this.result = second + current;
+                break;
+            case "-":
+                this.result = second - current;
+                break;
+            case "/":
+                this.result = second / current;
+                break;
+            case "*":
+                this.result = second * current;
+                break;
+            case "%":
+                this.result = second % current;
+                break;
+        }
+        this.currentNumber = this.result;
+        this.secondNumber = "";
+        this.operation = "";
+    }
 }
 
-function getNumbers(regexp, str) {
-    const firstNum = Array.from(str.matchAll(regexp), m => m[1]);
-    const secondNum = Array.from(str.matchAll(regexp), m => m[3]);
-    return firstNum.concat(secondNum)
+const calculator = new Calculator(displayDown, displayUpper);
+
+numbersButton.forEach(numberButton => {
+    numberButton.addEventListener("click", () => {
+        calculator.changeNumber(numberButton.innerText);
+        calculator.updateDisplay();
+    })
+});
+
+operationsButton.forEach(operationButton => {
+    operationButton.addEventListener("click", () => {
+        calculator.changeOperator(operationButton.innerText);
+        calculator.updateDisplay();
+    })
+})
+
+allClearButton.addEventListener("click", () => {
+    calculator.allClear();
+})
+
+equalButton.addEventListener("click", () => {
+    calculator.evaluate();
+    calculator.updateDisplay();
+})
+
+allClearButton.addEventListener("click", () => {
+    calculator.allClear();
+    calculator.updateDisplay();
+})
+
+clearButton.addEventListener("click", () => {
+    calculator.clear();
+})
+
+
+// ADDING KEYBOARD
+function keyboardNums(num) {
+    calculator.changeNumber(num);
+    calculator.updateDisplay();
 }
 
-function add(a, b) {
-    return a + b;
-};
-function subtract(a, b) {
-    return a - b
-};
-function multiply(a, b) {
-    return a * b;
-};
-function devide(a, b) {
-    return a / b;
-};
-function percent(a, b) {
-    return a % b;
+function keyboardOperations(operator) {
+    calculator.changeOperator(operator);
+    calculator.updateDisplay();
 }
-function operate(operator, a, b) {
-    switch (operator) {
-        case "%":
-            return percent(a, b);
+
+window.addEventListener("keydown", (e) => {
+    switch (e.code) {
+        case "Backspace":
+            calculator.clear();
             break;
-        case "+":
-            return add(a, b);
+        case "Digit0":
+            keyboardNums("0");
             break;
-        case "-":
-            return subtract(a, b);
+        case "Digit1":
+            keyboardNums("1");
             break;
-        case "*":
-            return multiply(a, b);
+        case "Digit2":
+            keyboardNums("2");
             break;
-        case "/":
-            return devide(a, b);
+        case "Digit3":
+            keyboardNums("3");
+            break;
+        case "Digit4":
+            keyboardNums("4");
+            break;
+        case "Digit5":
+            keyboardNums("5");
+            break;
+        case "Digit6":
+            keyboardNums("6");
+            break;
+        case "Digit7":
+            keyboardNums("7");
+            break;
+        case "Digit8":
+            keyboardNums("8");
+            break;
+        case "Digit9":
+            keyboardNums("9");
+            break;
+        case "NumpadAdd":
+            keyboardOperations("+");
+            break;
+        case "NumpadSubtract":
+            keyboardOperations("-");
+            break;
+        case "NumpadDivide":
+            keyboardOperations("/");
+            break;
+        case "NumpadMultiply":
+            keyboardOperations("*");
+            break;
+        case "Enter":
+            calculator.evaluate();
+            calculator.updateDisplay();
+            break;
+        case "NumpadEnter":
+            calculator.evaluate();
+            calculator.updateDisplay();
             break;
         default:
-            alert("ERROR, OPERATOR IS NOT VALID")
-    };
-}
-
-function updateDispaly(button) {
-    display.innerText += button;
-}
-
-function AC() {
-    display.innerText = "";
-    operator = [], nums = [];
-}
-
-function C() {
-    display.innerText = display.innerText.slice(0, -1)
-}
-
-function evaluate() {
-    total = operate(operator[0], parseInt(nums[0]), parseInt(nums[1]));
-    display.innerText = total;
-    makePatterns(true, true)
-}
-
-function makePatterns(doNums, doOperators) {
-    if (doNums) {
-        nums = getNumbers(regexOne, display.innerText);
+            return;
     }
-    if (doOperators) {
-        operator = getOperator(regexTwo, display.innerText)
-    }
-}
-
-function numberInput(text) {
-    updateDispaly(text);
-    // THIS MAKES AN ARRAY OF NUMBERS INPUTED
-    makePatterns(true, false);
-}
-
-function isNumberKey(evt) {
-    // ONLY NUMBERS
-    let charCode = (evt.which) ? evt.which : evt.keyCode;
-    if (charCode == 46 || charCode > 31 && (charCode < 48 || charCode > 57)) {
-        return false;
-    }
-    numberInput(evt.key)
-}
-
-for (let number of numbers) {
-    number.addEventListener("click", () => {
-        numberInput(number.innerText)
-    })
-}
-
-for (let sign of signs) {
-    sign.addEventListener("click", () => {
-        makePatterns(false, true);
-        // DISABLE SIGNS IF DISPLAY IS EMPTY
-        if (display.innerText === "" && (sign.innerText === "+" || sign.innerText === "/" || sign.innerText === "*" || sign.innerText === "/"
-            || sign.innerText === "%")) { return }
-        // DISABLE INPUTING MULTIPLE SIGNS IN A ROW
-        if (operator?.length === 1 && nums.length < 2) {
-            operator.splice(0, 1, sign.innerText);
-            let slicedStr = display.innerText.split("");
-            slicedStr.splice(slicedStr.length - 1, 1, sign.innerText);
-            display.innerText = slicedStr.join("");
-            return
-        }
-        // CALCULATE IF YOU INPUT A SIGN AFTER 2 NUMBERS AND ONE SIGN
-        if (operator?.length === 1) {
-            evaluate()
-            updateDispaly(sign.innerText)
-            operator = [sign.innerText]
-            return
-        }
-        updateDispaly(sign.innerText);
-        // THIS MAKES ARRAY FOR OPERATOR INPUTED
-        makePatterns(false, true);
-    })
-}
-
-equalSign.addEventListener("click", () => {
-    // MAKE IT ONLY AVAILABLE IF RQUIERMENTS ARE MET
-    if (nums.length === 2 && operator.length === 1) {
-        evaluate();
-    }
-})
-
-buttonAC.addEventListener("click", AC);
-
-dot.addEventListener("click", () => updateDispaly(dot.innerText));
-
-c.addEventListener("click", () => {
-    C();
-    makePatterns(true, true);
-})
-
-document.querySelector("body").addEventListener("keypress", isNumberKey)
+}, true)
