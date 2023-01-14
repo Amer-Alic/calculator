@@ -6,15 +6,18 @@
 **[Live preview](https://amer-tech.github.io/calculator/)**
 
 
-INFO ABOUT NEW REWRITE:
-WHY DID I UPDATE THIS CALCULATOR:
- -Old code was not readable and was really complicated, 
--I wanted more practice with OOP and decided to recreate it
-NEW THINGS I LEARNED: 
--Better OOP 
--How to rewrite something
--Better understanding of functional code
-IMRPOVMENTS
--Added keyboard;
--Fixed bug with multiple dots;
--Increased speed;
+# INFO ABOUT NEW REWRITE
+
+## Why did I update this calculator?
+- Old code was not readable and was really complicated
+- I wanted more practice with OOP and decided to recreate it
+
+## New things I learned:
+- Better OOP 
+- How to rewrite something
+- Better understanding of functional code
+
+## Improvements:
+- Added keyboard support
+- Fixed bug with multiple dots
+- Increased speed
