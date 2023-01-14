@@ -52,7 +52,7 @@ class Calculator {
     evaluate() {
         let current = parseFloat(this.currentNumber);
         let second = parseFloat(this.secondNumber);
-        if (this.operation === "/" || second === 0) {
+        if (this.operation === "/" && current === 0) {
             alert("YOU CANT DO THISSSS");
             this.allClear();
             return;
