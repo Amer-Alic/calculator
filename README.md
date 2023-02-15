@@ -18,4 +18,4 @@
 - Added keyboard support
 - Fixed bug with multiple dots
 - Increased speed
-**[Live preview](https://amer-tech.github.io/calculator/)**
+**[Live preview](https://amer-alic.github.io/calculator/)**
